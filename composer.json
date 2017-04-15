@@ -1,0 +1,17 @@
+{
+    "name": "faramarz/mq-worker",
+    "description": "Worker for handling requests based on routing keys Edit",
+    "require": {
+        "php-amqplib/php-amqplib": "^2.6"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Faramarz Salehpour",
+            "email": "subs@marz.co"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"MQWorker\\" : "src/"}
+    }
+}
