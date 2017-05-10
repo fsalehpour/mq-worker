@@ -12,16 +12,18 @@ class MQWorker
     protected $exchange;
     protected $routingPattern;
     protected $routing;
+    protected $strict;
 
     /**
      * MQWorker constructor.
      */
-    public function __construct($ch, $queue, $exchange, $pattern)
+    public function __construct($ch, $queue, $exchange, $pattern, $strict = true)
     {
         $this->ch = $ch;
         $this->queue = $queue;
         $this->exchange = $exchange;
         $this->routingPattern = $pattern;
+        $this->strict = $strict;
     }
 
     public function run()
@@ -56,7 +58,9 @@ class MQWorker
 
             call_user_func([$this, $this->routing[$routing_key]], $message);
         } catch (Exception $e) {
-            echo $e->getMessage() . PHP_EOL;
+            if ($this->strict) {
+                echo $e->getMessage() . PHP_EOL;
+            }
         }
         finally {
             $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
