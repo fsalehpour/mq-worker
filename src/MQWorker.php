@@ -33,10 +33,7 @@ class MQWorker
         $this->ch->basic_consume($this->queue, '', false, false, false, false, [$this, 'listenForRouting']);
 
         while (count($this->ch->callbacks)) {
-            try {
                 $this->ch->wait(null, false, null);
-            } catch (AMQPIOException $e) {
-            }
         }
 
         $this->ch->close();
